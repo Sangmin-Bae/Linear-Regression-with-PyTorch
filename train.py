@@ -1,6 +1,10 @@
 import argparse
 
 import torch
+import torch.nn.functional as F
+import torch.optim as optim
+
+from model import MyLinear
 
 from utils import load_data
 
@@ -27,6 +31,19 @@ def main(config):
 
     print(f"Train Data : {x.shape}")
     print(f"Target Data : {y.shape}")
+
+    input_size = x.size(-1)
+    output_size = y.size(-1)
+
+    # Define Model
+    model = MyLinear(input_size, output_size)
+
+    optimizer = optim.SGD(model.parameters(), lr=config.lr)
+    crit = F.mse_loss()
+
+
+
+
 
 
 
