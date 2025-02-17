@@ -36,7 +36,7 @@ def main(config):
     output_size = y.size(-1)
 
     # Define Model
-    model = MyLinear(input_size, output_size)
+    model = MyLinear(input_size, output_size).to(device)
 
     optimizer = optim.SGD(model.parameters(), lr=config.lr)
 
@@ -45,7 +45,7 @@ def main(config):
 
     trainer = Trainer(model, optimizer)
 
-    trainer.train(x, y, config)
+    trainer.train(x.to(device), y.to(device), config)
 
     # Save best model weights
     torch.save({
