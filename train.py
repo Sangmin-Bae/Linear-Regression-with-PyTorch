@@ -1,10 +1,10 @@
 import argparse
 
 import torch
-import torch.nn.functional as F
 import torch.optim as optim
 
 from model import MyLinear
+from trainer import Trainer
 
 from utils import load_data
 
@@ -39,15 +39,23 @@ def main(config):
     model = MyLinear(input_size, output_size)
 
     optimizer = optim.SGD(model.parameters(), lr=config.lr)
-    crit = F.mse_loss()
 
+    print(f"Model : {model}")
+    print(f"Optimizer : {optimizer}")
 
+    trainer = Trainer(model, optimizer)
 
+    trainer.train(x, y, config)
 
+    # Save best model weights
+    torch.save({
+        'model': trainer.model.state_dict(),
+        'opt': optimizer.state_dict(),
+        'config': config,
+    }, config.model_fn)
 
 
 
 if __name__ == "__main__":
     config = argument_parser()
-    print(config)
     main(config)

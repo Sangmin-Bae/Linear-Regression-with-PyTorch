@@ -15,3 +15,5 @@ class MyLinear(nn.Module):
         # |x| = (N, input_size)
         y = self.linear(x)
         # |y| = (N, output_size)
+
+        return y
